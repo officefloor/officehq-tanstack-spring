@@ -1,10 +1,19 @@
-# officehq-tanstack-officefloor — base repository (additive React SPA + OfficeFloor)
+# officehq-tanstack-spring — base repository (additive React SPA + plain Spring Boot)
 
 A **base repository** for the `ui-long-degradation-test` harness — **one technology stack**:
 front-end an **additive React SPA** (TanStack Router + TanStack Query + a slot registry), backend
-**OfficeFloor** (within Spring) on in-memory H2. It is the *front-end* arm of the comparison with
-`~/officehq-react-officefloor`: same language, same UI library, same backend — the only variable is
-whether the front-end's shared structure is edited or added to.
+**plain Spring Boot** (`@RestController` + `@Service`) on in-memory H2. No OfficeFloor.
+
+This arm exists to make the front-end result **attributable**. Every other UI arm shares the
+additive OfficeFloor backend, so the study cannot yet say whether front-end additivity is
+self-sufficient. Against `~/officehq-tanstack-officefloor` **only the backend differs** — the
+front end is byte-identical, because this repo was cloned from it:
+
+* if this arm holds its front-end structure too, the front-end result stands **independently**;
+* if it degrades, the two layers **interact**, and additivity has to be whole-stack — a more
+  interesting finding, and more useful to anyone adopting it.
+
+Either answer is publishable; not knowing is the weak position.
 
 Every shared structure here is **generated from the file system** or **addressed by a key**, so a
 feature is new files:
@@ -37,7 +46,6 @@ checkpoint.
   front-end, different backend, or both), satisfy the same `BASE_CHECKLIST.md`, and point
   `app.repo` at it. Each is its own run.
 
-**Status: green.** `bin/build` produces the one jar, `bin/start` serves the shell, and the shell's
-mechanisms (page self-registration, slot contributions in order, URL-as-state across sibling
-components surviving a reload, and TanStack Query against the running app) were verified end to end
-with a throwaway spec through `bin/e2e`. See **[BASE_CHECKLIST.md](./BASE_CHECKLIST.md)**.
+**Status: green.** `bin/build` produces the one jar and `bin/e2e` verified the shell against the
+real jar. Confirmed the packaged jar contains **no OfficeFloor libraries**. The front-end shell is
+byte-identical to `~/officehq-tanstack-officefloor`.

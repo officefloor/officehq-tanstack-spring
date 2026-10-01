@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  react-officefloor base app. Model: SPRING BOOT 4 hosts; OfficeFloor REST is added via the
-  OfficeFloor Spring Boot 4 starter. Domain REST endpoints are additive OfficeFloor YAML
-  (src/main/resources/officefloor/rest/*.GET.yml -> a logic class); Spring serves the SPA (static/),
-  H2 + Flyway + Actuator. Coordinates VERIFIED against OfficeFloor tutorials
-  (tutorials/springboot/SpringRestGettingStartedHttpServer, SpringRestDataJpaHttpServer) and the
-  OfficeFloor BOM (net.officefloor:bom @ revision 4.0.2: spring-version=4.1.0).
+  tanstack-spring base app. The ADDITIVE front end (TanStack Router + Query + a slot registry) on
+  a plain Spring Boot 4 backend — no OfficeFloor. Domain endpoints are @RestController methods;
+  Spring serves the SPA (static/), H2 + Flyway + Actuator.
+
+  This arm exists to make the front-end result ATTRIBUTABLE. Every other UI arm shares the additive
+  OfficeFloor backend, so the study cannot yet say whether front-end additivity is self-sufficient.
+  Against officehq-tanstack-officefloor only the BACKEND differs, so:
+    * if this arm holds its front-end structure too, the front-end result stands independently;
+    * if it degrades, the layers interact and additivity has to be whole-stack.
+  Either answer is publishable; not knowing is the weak position.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <!-- Standard Spring Boot app parent. Spring Boot 4.1.0 = the SB4 line in the OfficeFloor BOM
-       (net.officefloor:bom @ 4.0.2, spring-version=4.1.0). VERIFIED to resolve via `mvn dependency:
-       resolve` (BUILD SUCCESS): parent + all deps + build plugins resolve from Maven Central. -->
+  <!-- Held at Spring Boot 4.1.0, the same host every other arm runs, so only the architecture
+       differs between arms. -->
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -29,23 +32,13 @@
 
   <properties>
     <java.version>17</java.version>
-    <!-- OfficeFloor current release (net.officefloor:bom revision). VERIFIED: officefloor-rest-
-         spring-boot-4-starter:4.0.2 resolves. NOTE: its jar has no automatic module name ('4' is
-         not a valid Java identifier) — harmless on the classpath; would matter only for JPMS. -->
-    <officefloor.version>4.0.2</officefloor.version>
     <node.version>v20.11.1</node.version>
     <npm.version>10.2.4</npm.version>
   </properties>
 
   <dependencies>
-    <!-- OfficeFloor REST inside Spring Boot 4: add this + write officefloor/rest/*.yml.
-         Domain endpoints are additive OfficeFloor YAML (the property under test). -->
-    <dependency>
-      <groupId>net.officefloor.springboot</groupId>
-      <artifactId>officefloor-rest-spring-boot-4-starter</artifactId>
-      <version>${officefloor.version}</version>
-    </dependency>
-
+    <!-- No OfficeFloor: domain endpoints are Spring @RestController methods. The front end is
+         the additive one; the backend is the mutative baseline. -->
     <!-- Spring Boot hosts: web (serves the SPA from static/ + hosts the HTTP server),
          data-jpa (H2 access for services), actuator (health probe). -->
     <dependency>

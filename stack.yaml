@@ -10,6 +10,11 @@
 # Lizard cannot read still gets every git-derived metric (hot_surface, reedit_line_stats, impact
 # addition/mutation split), and its parser-derived columns come back blank instead of zero.
 #
+# This arm is the ADDITIVE FRONT END on a MUTATIVE (plain Spring) backend. Against
+# ~/officehq-tanstack-officefloor only the backend differs — the front end is byte-identical — so
+# a front-end difference between the two can only come from the backend they talk to. That is what
+# makes the front-end result attributable rather than confounded with OfficeFloor.
+#
 # GENERATED CODE MUST BE GITIGNORED (see .gitignore): the metrics read committed trees and diffs,
 # so anything ignored is simply absent. Here that is `routeTree.gen.ts` (TanStack Router generates
 # it from routes/) and `src/main/resources/static/` (the vite build output).
@@ -32,15 +37,10 @@ layers:
     root: src/main/java
     ext: [java]
     jscpd_format: java
-    # Every OfficeFloor logic class reached through a `service(...)` method.
-    handler_pattern: "::service$"
-    # Non-blank, non-comment YAML lines of the wiring, counted separately (config_loc) and never
-    # mixed into an erosion or verbosity denominator.
-    config_globs: ["src/main/resources/officefloor/**/*.yml"]
-    # One wired node per endpoint: this arm declares a YAML file per route, so the node roots come
-    # from a GLOB rather than one wiring file. Drives node_cc_median — the complexity a developer
-    # loads to change one rule — and node_exclusive_share, how much of it each node owns alone.
-    node_roots:
-      wiring_glob: "src/main/resources/officefloor/rest/**/*.yml"
-      class_regex: 'class:\s*([\w.]+)'
-      node_method: service
+    # The entry surface is the Spring controller a request routes through.
+    #
+    # There is no per-endpoint wiring unit in this arm, so `node_roots` and `config_globs` are
+    # deliberately ABSENT: the node-closure columns (node_cc_median, node_exclusive_share, ...)
+    # and config_loc come back blank. That is this architecture's own answer — a Spring controller
+    # has no separable wired node to scope to — not a gap in the declaration.
+    handler_pattern: "Controller[^:]*::"
