@@ -10,3 +10,9 @@ database schema, the server, and the front end.
 - **Run `bin/e2e`** to build the app, start it, run your test, and stop — use it to
   check your work. The `bin/` scripts and these two instruction files are fixed; do
   not edit them.
+
+---
+
+*TanStack's own documentation is vendored in this repo under `docs/tanstack/`: the official
+`llms.txt` index for TanStack Router (`router.llms.txt`) and TanStack Query (`query.llms.txt`).
+Consult it when working with TanStack Router or Query.*
