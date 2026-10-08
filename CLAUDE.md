@@ -16,3 +16,9 @@ database schema, the server, and the front end.
 *TanStack's own documentation is vendored in this repo under `docs/tanstack/`: the official
 `llms.txt` index for TanStack Router (`router.llms.txt`) and TanStack Query (`query.llms.txt`).
 Consult it when working with TanStack Router or Query.*
+
+---
+
+*Spring's official reference documentation is the guidance for this stack — consult it when
+working on the server: Spring Boot <https://docs.spring.io/spring-boot/4.1/reference/> and Spring
+Framework (web MVC, the `@RestController` layer) <https://docs.spring.io/spring-framework/reference/>.*
