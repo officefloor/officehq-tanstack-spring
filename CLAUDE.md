@@ -19,6 +19,11 @@ Consult it when working with TanStack Router or Query.*
 
 ---
 
-*Spring's official reference documentation is the guidance for this stack — consult it when
-working on the server: Spring Boot <https://docs.spring.io/spring-boot/4.1/reference/> and Spring
-Framework (web MVC, the `@RestController` layer) <https://docs.spring.io/spring-framework/reference/>.*
+## Spring
+
+This is a standard Spring Boot application, built with conventional Spring MVC
+(`@RestController` request handling, a service layer, Spring Data / JPA persistence, and Bean
+Validation). Follow ordinary Spring conventions and idioms throughout. Spring's reference
+documentation is the guidance for the server: Spring Boot
+<https://docs.spring.io/spring-boot/4.1/reference/> and Spring Framework
+<https://docs.spring.io/spring-framework/reference/>.
