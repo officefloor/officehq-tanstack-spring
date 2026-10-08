@@ -1,23 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  tanstack-spring base app. The ADDITIVE front end (TanStack Router + Query + a slot registry) on
-  a plain Spring Boot 4 backend — no OfficeFloor. Domain endpoints are @RestController methods;
-  Spring serves the SPA (static/), H2 + Flyway + Actuator.
-
-  This arm exists to make the front-end result ATTRIBUTABLE. Every other UI arm shares the additive
-  OfficeFloor backend, so the study cannot yet say whether front-end additivity is self-sufficient.
-  Against officehq-tanstack-officefloor only the BACKEND differs, so:
-    * if this arm holds its front-end structure too, the front-end result stands independently;
-    * if it degrades, the layers interact and additivity has to be whole-stack.
-  Either answer is publishable; not knowing is the weak position.
+  OfficeHQ — a Spring Boot app. Domain REST endpoints are Spring @RestController methods. Spring
+  serves the SPA (static/), with H2 + Flyway + Actuator.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <!-- Held at Spring Boot 4.1.0, the same host every other arm runs, so only the architecture
-       differs between arms. -->
+  <!-- Standard Spring Boot app parent (4.1.0). -->
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
@@ -37,8 +28,7 @@
   </properties>
 
   <dependencies>
-    <!-- No OfficeFloor: domain endpoints are Spring @RestController methods. The front end is
-         the additive one; the backend is the mutative baseline. -->
+    <!-- Domain endpoints are Spring @RestController methods. -->
     <!-- Spring Boot hosts: web (serves the SPA from static/ + hosts the HTTP server),
          data-jpa (H2 access for services), actuator (health probe). -->
     <dependency>
@@ -53,7 +43,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
-    <!-- Bean Validation provider (Hibernate Validator) — OfficeFloor REST / Spring bind + @Valid. -->
+    <!-- Bean Validation provider (Hibernate Validator) — REST bind + @Valid. -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
@@ -72,8 +62,8 @@
     <!-- REQUIRED under Spring Boot 4: FlywayAutoConfiguration was extracted from
          spring-boot-autoconfigure into this module. Without it, flyway-core is on the classpath but
          migrations NEVER run on boot (silently — no error, the table is just missing). Version is
-         managed by the parent BOM. Found via the cp01 dry run. flyway-core 12.x has H2 support
-         built in, so no flyway-database-h2 module is needed. -->
+         managed by the parent BOM. flyway-core 12.x has H2 support built in, so no
+         flyway-database-h2 module is needed. -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-flyway</artifactId>
@@ -88,8 +78,7 @@
 
   <build>
     <plugins>
-      <!-- Build the React SPA into src/main/resources/static so Spring serves it.
-           TODO: set the front-end build (vite) outDir to ../resources/static. -->
+      <!-- Build the React SPA into src/main/resources/static so Spring serves it. -->
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
